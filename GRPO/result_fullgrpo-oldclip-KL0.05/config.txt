@@ -1,0 +1,42 @@
+    # ===== 超参数 =====
+    n_grpo_steps = 1000
+    rollout_batch_size = 32
+    group_size = 8
+    train_batch_size = 8
+    gradient_accumulation_steps = 8
+    lr = 1e-5
+    lr_min = 5e-6
+    warmup_ratio = 0.08
+    max_grad_norm = 1.0
+    seed = 44
+
+    lpreg_beta = 0.5
+    lpreg_min_p_ratio = 0.02
+    lpreg_fixed_tau = None
+    lpreg_clip_low = 0.8
+    lpreg_clip_high = 1.2
+    lpreg_low_prob_rho = 0.05
+    old_cache_microbatch_size = 4
+    
+    normalize_by_std = False
+    advantage_eps = 1e-6
+    epochs_per_rollout_batch = 4
+
+    eval_every = 10
+    eval_test_path = "/home/u2022310886/jupyterlab/RL/math_lighteval_smalltest.jsonl"
+    eval_batch_size = 8
+
+    curriculum_start_probs = {
+        "Level 1": 0.35,
+        "Level 2": 0.30,
+        "Level 3": 0.20,
+        "Level 4": 0.10,
+        "Level 5": 0.05,
+    }
+    curriculum_end_probs = {
+        "Level 1": 0.10,
+        "Level 2": 0.15,
+        "Level 3": 0.20,
+        "Level 4": 0.25,
+        "Level 5": 0.30,
+    }
