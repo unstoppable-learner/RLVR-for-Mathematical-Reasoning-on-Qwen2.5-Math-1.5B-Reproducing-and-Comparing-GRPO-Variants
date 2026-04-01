@@ -71,19 +71,19 @@ def build_prompt(question: str) -> str:
 
 ### 下面列出实验的五种算法以及重要参数配置：
 
-(1) **GRPO-500**：标准的GRPO-clip算法，对应GRPO/GRPO_save_optimizer_every50.py  
+(1) **GRPO-500**：标准的GRPO-clip算法。对应GRPO/GRPO_save_optimizer_every50.py  
 配置：`n_grpo_steps = 500`, `rollout_batch_size = 64`, `group_size = 8`, `train_batch_size = 8`, `gradient_accumulation_steps = 8`, `normalize_by_std = False`, `cliprange = 0.2`, `epochs_per_rollout_batch = 4`  
 
-(2) **GRPO-1000**：控制总的训练样本量不变，增多迭代次数，减少每次迭代所需样本量，对应GRPO/GRPO_save_optimizer_every50.py  
+(2) **GRPO-1000**：控制总的训练样本量不变，增多迭代次数，减少每次迭代所需样本量。对应GRPO/GRPO_save_optimizer_every50.py  
 配置：`n_grpo_steps = 1000`, `rollout_batch_size = 32`，其他同上  
 
-(3) **GRPO-clip-pureKL**：在GRPO_clip的基础上添加了KL散度作为惩罚项，对应GRPO/GRPO_KL_pureKL.py  
+(3) **GRPO-clip-pureKL**：在GRPO_clip的基础上添加了KL散度作为惩罚项。对应GRPO/GRPO_KL_pureKL.py  
 配置：`kl_beta = 0.5`, `old_cache_microbatch_size = 4`，其他同上(2)
 
-(4) **GRPO-lp-reg**：采用了[LP-Reg](https://arxiv.org/abs/2510.03222)的思路，但在原文中clip的上下限被设置成0和10，实验中发现并不适合小模型，所以保留了原本的clip上下限，对应GRPO/GRPO_KL.py  
+(4) **GRPO-lp-reg**：采用了[LP-Reg](https://arxiv.org/abs/2510.03222)的思路，但在原文中clip的上下限被设置成0和10，实验中发现并不适合小模型，所以保留了原本的clip上下限。对应GRPO/GRPO_KL.py  
 配置：`lpreg_beta = 0.5`, `lpreg_min_p_ratio = 0.02`, `lpreg_fixed_tau = None`, `lpreg_low_prob_rho = 0.05`，其他同(2)
 
-(5) **GRPO-lambda**：采用了[GRPO-lambda](https://arxiv.org/abs/2510.00194)的思路，使用了文章提出的epsilon_trace方法。对应GRPO/GRPO_lambda_epsilon_trace_no_adv_clip.py  
+(5) **GRPO-lambda**：采用了[GRPO-lambda](https://arxiv.org/abs/2510.00194)的思路，使用了文章提出的epsilon_trace方法。但实验中发现除以标准差再对负优势截断的操作会让模型完全做不出难度高的题，所以后面图中展示的是不除以标准差且不截断优势的效果。代码对应GRPO/GRPO_lambda_epsilon_trace_no_adv_clip.py  
 配置：`kl_beta = 0.04`, `trace_lambda = 0.99`, `gamma = 1.0`, `trace_style = "recent"`，其他同(2)
 
 ### 下图是五种方法的对比结果：
