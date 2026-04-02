@@ -95,5 +95,4 @@ def build_prompt(question: str) -> str:
 
 (1) 在控制总的训练样本量不变的情况下，增多迭代次数，减少每次迭代所需样本量，可以让强化学习的表现更好，因为每一次迭代，都有π_old限制模型的变化，更多次的模型迭代可以尽可能减少clip带来的限制。因此后三种方法都选择了增加迭代次数的方法。  
 (2) 关于Reasoning Spark：在[这篇文章](https://arxiv.org/abs/2510.03222)中，研究人员认为，调整KL散度(lp-reg)可以帮助模型保留reasoning spark。具体而言，当token对应的条件概率为“低概率”且大于“噪声概率”时，被认为是reasoning spark，在优势值为负时，利用KL散度(lp-reg)来保护这些关键的token。但在实验中，我发现原文章对于reasoning spark的定义不适用于小模型，所以出现了GRPO-pureKL效果优于GRPO-lp-reg的情况。尽管如此，使用GRPO-lp-reg在level 4和level 5的题上效果都优于GRPO-1000。所以lp-reg确实能起到保护探索性token的作用。
-
 (3) 关于GRPO-lambda：这种方法在level 1和level 2的题上表现最优。标准的GRPO中，使用NAE近似A_{i,t}，但在GRPO-lambda中，NAE的作用是近似δ_t，这种方法使得稀疏的奖励有可能把response的对错归因到token级别。
